@@ -22,3 +22,22 @@ services:
       - /var/run:/var/run:rw
       - /sys/fs/cgroup/cpu,cpuacct:/sys/fs/cgroup/cpuacct,cpu
       - /var/lib/docker/:/var/lib/docker:ro
+  postgres:
+    privileged: true
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=endava123
+      - POSTGRES_DB=endava
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+  postgres-exporter:
+    image: quay.io/prometheuscommunity/postgres-exporter
+    ports:
+      - "9187:9187"
+    environment:
+      - DATA_SOURCE_NAME="postgresql://postgres:endava123@postgres:5432/endava?sslmode=disable"
+

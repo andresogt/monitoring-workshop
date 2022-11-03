@@ -15,7 +15,7 @@ scrape_configs:
     scheme: http # or https
     static_configs:
     - targets:
-      - 10.20.30.3:81
+      - 192.168.56.143:81
       labels:
         component: proxy
     # azure_sd_configs: []
@@ -29,7 +29,7 @@ scrape_configs:
     scheme: http
     static_configs:
     - targets:
-      - 10.20.30.3:8080
+      - 192.168.56.143:8080
       labels:
         component: container
 
@@ -38,9 +38,18 @@ scrape_configs:
     scheme: http
     static_configs:
     - targets:
-      - 10.20.30.3:9100
+      - 192.168.56.143:9100
       labels:
         component: machine
+
+  - job_name: postgres
+    metrics_path: /metrics
+    scheme: http
+    static_configs:
+    - targets:
+      - 192.168.56.143:9187
+      labels:
+        component: db
 
 alerting:
   alertmanagers:
